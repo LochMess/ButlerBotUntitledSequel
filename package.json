@@ -1,0 +1,26 @@
+{
+  "name": "butler-bot-untitled-sequel",
+  "version": "1.0.0",
+  "description": "nodeJS discord bot",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "bottest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "later.com"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "roles",
+    "discord",
+    "server",
+    "management"
+  ],
+  "author": "LochMess",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.4.2"
+  }
+}
