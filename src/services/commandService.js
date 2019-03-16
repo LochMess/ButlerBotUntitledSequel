@@ -1,4 +1,4 @@
-const commands = require('../commands/index.js');
+const commands = require('../commands/commandsIndex.js');
 
 exports.handle = (client, message, command, args) => {
     try {
