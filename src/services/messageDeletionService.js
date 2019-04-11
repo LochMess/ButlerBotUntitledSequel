@@ -12,9 +12,7 @@ async function deleteMessages(messages, channel) {
     if (messages.size === 0)
         return 'No more messages to delete.';
     return channel.bulkDelete(messages)
-        .then(deletedMessages => {
-            return cleanChannel(channel);
-        })
+        .then(deletedMessages => cleanChannel(channel))
         .catch(e => {
             console.error('Delete messages error has occured:');
             throw new DeleteMessagesAsyncFunctionException(e);
