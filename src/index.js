@@ -11,6 +11,8 @@ const commandChar = "!";
 
 client.login(auth.token);
 
+// client.on('debug', console.log);
+
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
