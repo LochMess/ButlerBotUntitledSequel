@@ -1,4 +1,6 @@
 const ytdl = require('ytdl-core');
+const ytdlDiscord = require('ytdl-core-discord');
+
 
 function getDispatcher(message) {
     return message.guild.voiceConnection.dispatcher;
@@ -17,7 +19,11 @@ function inVoiceChannel(message) {
 }
 
 async function joinVoiceChannel(message) {
-    return message.member.voiceChannel.join();
+    try {
+        return message.member.voiceChannel.join();
+    } catch(e) {
+        console.error(`joinVoiceChannel ${e}`);
+    }
 }
 
 async function leaveVoiceChannel(message) {
@@ -27,19 +33,25 @@ async function leaveVoiceChannel(message) {
 async function nowPlaying(message, url) {
     ytdl.getInfo(url)
         .then(info => message.channel.send(
-            `Playing: ${info.title}\nBy: ${info.author.name}`
+            `:musical_note: ${info.title}\n:information_desk_person: ${info.author.name}`
         ))
         .catch(console.error);
 }
 
 async function playAudio(connection, url, volume) {
-    const dispatcher = connection.playStream(
-        ytdl(url),
-        { seek: 0.1, volume: volume }
+    const dispatcher = connection.playOpusStream(
+        await ytdlDiscord(url, {filter: 'audioonly'}),
+        // { type: 'opus', passes: 3 }
+        { passes: 3 }
     );
-    // TODO: stop it from transmitting nothing when it's finished playing
-    // dispatcher.on('end');
-    dispatcher.on('error', console.error);
+    
+    dispatcher.on('error', error => console.error(error));
+    dispatcher.on('end', reason => {
+        if (reason === 'Stream is not generating quickly enough.') console.log('Song ended.');
+        else console.log(reason);
+    });
+
+    dispatcher.setVolumeLogarithmic(1 / 5);
 }
 
 module.exports = {

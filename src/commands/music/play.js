@@ -1,6 +1,7 @@
 const ytdl = require('ytdl-core');
-const voiceService = require('../services/voiceService');
+const voiceService = require('../../services/voiceService');
 
+// TODO: Add prompt for the correct discord permissions to talk in a voice channel
 // TODO: rename channel to current song
 exports.run = async (client, message, args) => {
     if (!message.member.voiceChannel) return message.channel.send(`Join a voice channel dofus.`);
@@ -13,12 +14,11 @@ exports.run = async (client, message, args) => {
     voiceService.nowPlaying(message, url);
 
     if (voiceService.inVoiceChannel(message)) {
-        const conn = voiceService.getConnection(message);
-        voiceService.playAudio(conn, url, volume);
+        const dispatcher = voiceService.getDispatcher(message);
+        console.log(`Ending stream dispatcher`);
+        if (dispatcher) dispatcher.end();
     }
-    else {
-        voiceService.joinVoiceChannel(message)
-            .then(conn => voiceService.playAudio(conn, url, volume))
-            .catch(console.error);
-    }
+    const conn = voiceService.inVoiceChannel(message) ? voiceService.getConnection(message) : await voiceService.joinVoiceChannel(message);
+
+    voiceService.playAudio(conn, url, volume);
 }

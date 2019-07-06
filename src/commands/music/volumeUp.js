@@ -1,6 +1,6 @@
-const voiceService = require('../services/voiceService');
+const voiceService = require('../../services/voiceService');
 
 exports.run = async (client, message, args) => {
     const dispatcher = voiceService.getDispatcher(message);
-    dispatcher.end();
+    dispatcher.setVolume(dispatcher.volume * 2);
 }

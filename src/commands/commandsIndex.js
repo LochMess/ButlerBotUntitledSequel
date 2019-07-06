@@ -3,8 +3,12 @@ module.exports = {
     ping: require('./ping'),
     clean: require('./cleanChannel'),
     test: require('./test'),
-    play: require('./play'),
-    pause: require('./pause'),
-    resume: require('./resume'),
-    stop: require('./stop')
+    play: require('./music/play'),
+    pause: require('./music/pause'),
+    resume: require('./music/resume'),
+    leave: require('./music/leave'),
+    volumedown: require('./music/volumeDown'),
+    volumeup: require('./music/volumeUp'),
+    volumeset: require('./music/volumeSet'),
+    stop: require('./music/stop')
 }
